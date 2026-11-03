@@ -1,0 +1,222 @@
+.app-navbar {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: #ffffff;
+  border-bottom: 1px solid #e4e9e8;
+  box-shadow: 0 2px 10px rgba(28, 45, 42, 0.05);
+}
+
+/* ==========================================
+   LOGO
+========================================== */
+
+.app-navbar-logo {
+  color: #182321;
+  font-size: 23px;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.app-navbar-logo span {
+  color: #0f766e;
+}
+
+/* ==========================================
+   NAVIGATION LINKS
+========================================== */
+
+.app-navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.app-navbar-links a {
+  color: #596562;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.app-navbar-links a:hover {
+  color: #0f766e;
+}
+
+/* ==========================================
+   CURRENCY SELECTOR
+========================================== */
+
+.currency-selector {
+  padding: 9px 12px;
+  border: 1px solid #dfe5e3;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.currency-selector:hover {
+  filter: brightness(0.98);
+}
+
+.currency-selector:focus {
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+/* ==========================================
+   SELECTED CURRENCY COLORS
+========================================== */
+
+/* EUR - Green */
+
+.currency-eur {
+  color: #0f766e;
+  background: #ecfdf5;
+  border-color: #99d5c9;
+}
+
+/* USD - Blue */
+
+.currency-usd {
+  color: #2563eb;
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+/* GBP - Purple */
+
+.currency-gbp {
+  color: #7c3aed;
+  background: #f5f3ff;
+  border-color: #ddd6fe;
+}
+
+/* INR - Orange */
+
+.currency-inr {
+  color: #d97706;
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+/* CAD - Red */
+
+.currency-cad {
+  color: #dc2626;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* AUD - Teal */
+
+.currency-aud {
+  color: #0891b2;
+  background: #ecfeff;
+  border-color: #a5f3fc;
+}
+
+/* ==========================================
+   DROPDOWN OPTION COLORS
+========================================== */
+
+/* EUR */
+
+.currency-option-eur {
+  color: #0f766e;
+  background-color: #ecfdf5;
+}
+
+/* USD */
+
+.currency-option-usd {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+
+/* GBP */
+
+.currency-option-gbp {
+  color: #7c3aed;
+  background-color: #f5f3ff;
+}
+
+/* INR */
+
+.currency-option-inr {
+  color: #d97706;
+  background-color: #fffbeb;
+}
+
+/* CAD */
+
+.currency-option-cad {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+/* AUD */
+
+.currency-option-aud {
+  color: #0891b2;
+  background-color: #ecfeff;
+}
+
+/* ==========================================
+   LOGOUT BUTTON
+========================================== */
+
+.logout-button {
+  border: 1px solid #dfe5e3;
+  border-radius: 9px;
+  padding: 9px 16px;
+  background: #ffffff;
+  color: #d34848;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #fff1f1;
+  border-color: #efcaca;
+}
+
+/* ==========================================
+   MOBILE RESPONSIVE
+========================================== */
+
+@media (max-width: 650px) {
+  .app-navbar {
+    padding: 15px 18px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .app-navbar-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .currency-selector {
+    padding: 8px 10px;
+  }
+
+  .logout-button {
+    padding: 8px 14px;
+  }
+}
