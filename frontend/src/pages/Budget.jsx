@@ -5,6 +5,7 @@ import {
   getCurrencySymbol
 } from '../utils/currency'
 import './Budget.css'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 function Budget() {
   const currentMonth = new Date().toISOString().slice(0, 7)
@@ -24,7 +25,7 @@ function Budget() {
       const token = localStorage.getItem('token')
 
       const response = await fetch(
-        `http://localhost:5000/api/budgets/${selectedMonth}`,
+        `${API_URL}/api/budgets/${selectedMonth}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -60,7 +61,7 @@ function Budget() {
       const token = localStorage.getItem('token')
 
       const response = await fetch(
-        'http://localhost:5000/api/transactions',
+        `${API_URL}/api/transactions`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -97,7 +98,7 @@ function Budget() {
       const token = localStorage.getItem('token')
 
       const response = await fetch(
-        'http://localhost:5000/api/budgets',
+        `${API_URL}/api/budgets`,
         {
           method: 'POST',
 

@@ -5,6 +5,7 @@ import {
   getCurrencySymbol
 } from '../utils/currency'
 import './Transactions.css'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 function Transactions() {
   const [type, setType] = useState('expense')
@@ -31,7 +32,7 @@ function Transactions() {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/transactions',
+        `${API_URL}/api/transactions`,
         {
           method: 'GET',
           headers: {
@@ -71,8 +72,8 @@ function Transactions() {
 
     try {
       const url = editingId
-        ? `http://localhost:5000/api/transactions/${editingId}`
-        : 'http://localhost:5000/api/transactions'
+        ? `${API_URL}/api/transactions/${editingId}`
+        : `${API_URL}/api/transactions`
 
       const method = editingId ? 'PUT' : 'POST'
 
@@ -147,7 +148,7 @@ function Transactions() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/transactions/${id}`,
+        `${API_URL}/api/transactions/${id}`,
         {
           method: 'DELETE',
           headers: {

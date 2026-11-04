@@ -15,6 +15,7 @@ import {
 } from 'recharts'
 
 import './Dashboard.css'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 import Navbar from '../components/Navbar'
 
 import {
@@ -53,7 +54,7 @@ function Dashboard() {
 
     try {
       const response = await fetch(
-        'http://localhost:5000/api/transactions',
+        `${API_URL}/api/transactions`,
         {
           method: 'GET',
           headers: {
