@@ -92,3 +92,34 @@ SmartSpend manages three main types of data:
 ## Budgets 
    -> Month, budget amount, and associated user.
 
+---
+
+## Architecture
+
+SmartSpend follows a full-stack client-server architecture where the React frontend communicates with the Express backend through REST API requests.
+
+Browser / React Frontend
+        ↕ REST API
+Node.js / Express Backend
+        ↕ Mongoose
+MongoDB Atlas Database
+
+## Frontend 
+   -> React and Vite are used to build the user interface. The frontend uses `fetch()` to communicate with the backend API.
+
+## Backend 
+   -> Node.js and Express.js handle authentication, transactions, budgets, and other application logic.
+
+## Database 
+   -> MongoDB Atlas stores user accounts, transactions, and monthly budgets. Mongoose is used to communicate with MongoDB.
+
+## Authentication 
+   -> JWT is used to authenticate users and protect private API routes.
+
+## Password Security 
+   -> Passwords are hashed using bcrypt before being stored in the database.
+
+## Deployment 
+   -> Both the frontend and backend are hosted as separate services on Render.
+
+The frontend and backend are kept separate. This allows the same backend API to support different client applications in the future and makes the system easier to maintain and deploy.
