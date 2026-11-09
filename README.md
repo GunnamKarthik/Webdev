@@ -527,3 +527,92 @@ SmartSpend was developed using a combination of frontend, backend, database, sec
 | Render | Used to deploy the SmartSpend frontend and backend online |
 
 The project does not use a live currency conversion API. The currency selector changes the display currency symbol only and does not convert the stored financial values.
+
+---
+
+## Deployment
+
+SmartSpend is deployed online using Render, while MongoDB Atlas is used as the cloud database. The frontend and backend are deployed as separate services.
+
+## Backend Deployment
+
+The Node.js and Express backend is deployed as a Render Web Service.
+
+The backend deployment configuration includes:
+
+1) **Root Directory:** `backend`
+2) **Build Command:** `npm install`
+3) **Start Command:** `node server.js`
+4) **Environment Variables:** `MONGO_URI` and `JWT_SECRET`
+5) **Port:** Uses the port provided by Render through `process.env.PORT`
+
+The backend connects to MongoDB Atlas using the database connection string stored securely as an environment variable.
+
+Live Backend:
+
+https://smartspend-backend-320f.onrender.com
+
+## Frontend Deployment
+
+The React and Vite frontend is deployed as a Render Static Site.
+
+The frontend deployment configuration includes:
+
+1) **Root Directory:** `frontend`
+2) **Build Command:** `npm run build`
+3) **Publish Directory:** `dist`
+4) **Environment Variable:** `VITE_API_URL`
+
+`VITE_API_URL` is configured to point to the deployed SmartSpend backend so that the frontend can communicate with the REST API.
+
+A Render rewrite rule is also configured:
+
+```text
+Source: /*
+Destination: /index.html
+Action: Rewrite
+```
+
+This allows React Router pages such as `/dashboard`, `/transactions`, and `/budget` to work correctly when the page is refreshed or accessed directly.
+
+## Database Deployment
+
+MongoDB Atlas provides the cloud database for SmartSpend.
+
+The database stores:
+
+1) Transactions
+2) Monthly budgets
+
+The database connection details are not stored directly in the source code. They are provided to the backend using environment variables.
+
+## Live Application
+
+The deployed SmartSpend application is available at:
+
+https://smartspend-frontend-9sb8.onrender.com
+
+## GitHub Repository
+
+The complete project source code and development history are available at:
+
+https://github.com/GunnamKarthik/Webdev
+
+The deployed architecture follows this flow:
+
+```text
+User
+  |
+  v
+React + Vite Frontend
+(Render Static Site)
+  |
+  | REST API
+  v
+Node.js + Express Backend
+(Render Web Service)
+  |
+  | Mongoose
+  v
+MongoDB Atlas
+```
