@@ -123,3 +123,54 @@ MongoDB Atlas Database
    -> Both the frontend and backend are hosted as separate services on Render.
 
 The frontend and backend are kept separate. This allows the same backend API to support different client applications in the future and makes the system easier to maintain and deploy.
+
+---
+
+## Database Schema
+
+SmartSpend uses MongoDB Atlas as its cloud database. Mongoose schemas are used to define the structure and validation rules for the application data.
+
+The system uses three main collections:-
+1) Users
+2) Transactions
+3) Budgets
+
+### Users
+
+| Field | Description |
+
+|---|---|
+
+| name | User's name |
+| email | User's email address and unique login identifier |
+| password | Password stored securely as a hash |
+| timestamps | Records when the account was created or updated |
+
+### Transactions
+
+| Field | Description |
+
+|---|---|
+
+| user | Reference to the user who owns the transaction |
+| type | Income or expense |
+| category | Category of the transaction |
+| amount | Monetary value of the transaction |
+| description | Optional information about the transaction |
+| date | Date of the transaction |
+| timestamps | Records when the transaction was created or updated |
+
+### Budgets
+
+| Field | Description |
+
+|---|---|
+
+| user | Reference to the user who owns the budget |
+| month | Month associated with the budget |
+| amount | Monthly budget amount |
+| timestamps | Records when the budget was created or updated |
+
+A user can have multiple transactions and monthly budgets. Each transaction and budget is linked to a specific user. This allows SmartSpend to keep financial information separate between different user accounts.
+
+A unique combination of user and month is used for budgets so that each user has one budget record for a particular month.
