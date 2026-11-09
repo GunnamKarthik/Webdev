@@ -236,3 +236,28 @@ The SmartSpend frontend communicates with the backend through REST API endpoints
 | GET | `/api/protected` | Test whether JWT authentication is working |
 
 For protected requests, the frontend sends the JWT token in the Authorization header. The backend authentication middleware verifies the token before allowing access to user-specific data.
+
+---
+
+## Setup and Installation 
+
+   -> SmartSpend can be run locally using Node.js, npm, and a MongoDB Atlas database. The frontend and backend run separately during development and communicate through REST API requests.
+
+## Prerequisites
+
+Before running SmartSpend locally, make sure the following are available:
+
+ 1) Node.js
+ 2) npm (Node Package Manager)
+ 3) Git
+ 4) MongoDB Atlas account
+ 5) A code editor such as Visual Studio Code
+ 6) Internet connection for accessing mongoDB Atlas
+
+## Clone the Repository
+ 
+   -> Open a terminal and clone the SmartSpend Github repository:
+
+```bash
+git clone https://github.com/GunnamKarthik/Webdev.git
+cd Webdev
