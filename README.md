@@ -135,7 +135,7 @@ The system uses three main collections:-
 2) Transactions
 3) Budgets
 
-### Users
+## Users
 
 | Field | Description |
 
@@ -146,7 +146,7 @@ The system uses three main collections:-
 | password | Password stored securely as a hash |
 | timestamps | Records when the account was created or updated |
 
-### Transactions
+## Transactions
 
 | Field | Description |
 
@@ -160,7 +160,7 @@ The system uses three main collections:-
 | date | Date of the transaction |
 | timestamps | Records when the transaction was created or updated |
 
-### Budgets
+## Budgets
 
 | Field | Description |
 
@@ -174,3 +174,53 @@ The system uses three main collections:-
 A user can have multiple transactions and monthly budgets. Each transaction and budget is linked to a specific user. This allows SmartSpend to keep financial information separate between different user accounts.
 
 A unique combination of user and month is used for budgets so that each user has one budget record for a particular month.
+
+---
+
+## API Documentation
+
+The SmartSpend frontend communicates with the backend through REST API endpoints. Protected endpoints require a valid JWT token.
+
+## Authentication Endpoints
+
+| Method | Endpoint | Description |
+
+|---|---|---|
+
+| POST | `/api/auth/register` | Register a new user account |
+
+| POST | `/api/auth/login` | Log in and receive a JWT token |
+
+## Transaction Endpoints
+
+| Method | Endpoint | Description |
+
+|---|---|---|
+
+| GET | `/api/transactions` | Get transactions belonging to the logged-in user |
+
+| POST | `/api/transactions` | Create a new transaction |
+
+| PUT | `/api/transactions/:id` | Update an existing transaction |
+
+| DELETE | `/api/transactions/:id` | Delete an existing transaction |
+
+## Budget Endpoints
+
+| Method | Endpoint | Description |
+
+|---|---|---|
+
+| GET | `/api/budgets/:month` | Get the logged-in user's budget for a selected month |
+
+| POST | `/api/budgets` | Create or update a monthly budget |
+
+## Protected Route
+
+| Method | Endpoint | Description |
+
+|---|---|---|
+
+| GET | `/api/protected` | Test whether JWT authentication is working |
+
+For protected requests, the frontend sends the JWT token in the Authorization header. The backend authentication middleware verifies the token before allowing access to user-specific data.
