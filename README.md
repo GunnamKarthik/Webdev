@@ -484,3 +484,46 @@ Webdev/
 
 -> **server.js** - Configures the Express server, MongoDB connection, middleware, API routes, and application port.
 
+---
+
+## Technologies Used
+
+SmartSpend was developed using a combination of frontend, backend, database, security, visualisation, version control, and cloud deployment technologies.
+
+| Technology | Purpose |
+
+|---|---|
+
+| React | Used to build the frontend user interface and application pages |
+
+| Vite | Used as the frontend development and build tool |
+
+| JavaScript | Main programming language used throughout the frontend and backend |
+
+| CSS | Used to design and style the SmartSpend user interface |
+
+| Node.js | Provides the runtime environment for the backend |
+
+| Express.js | Used to create the backend server and REST API routes |
+
+| MongoDB Atlas | Cloud database used to store users, transactions, and budgets |
+
+| Mongoose | Used to define data models and communicate with MongoDB |
+
+| JSON Web Token (JWT) | Used for user authentication and protecting private API routes |
+
+| bcrypt | Used to hash user passwords before storing them in the database |
+
+| Recharts | Used to create financial charts and visualisations on the dashboard |
+
+| CORS | Allows communication between the separately hosted frontend and backend |
+
+| dotenv | Used to load sensitive backend configuration from environment variables |
+
+| Git | Used for source code version control |
+
+| GitHub | Used to store and manage the project repository |
+
+| Render | Used to deploy the SmartSpend frontend and backend online |
+
+The project does not use a live currency conversion API. The currency selector changes the display currency symbol only and does not convert the stored financial values.
