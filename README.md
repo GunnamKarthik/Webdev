@@ -330,3 +330,79 @@ This feature changes how monetary values are displayed. It does not perform live
 7. Logout
 
    -> Select *Logout* when finished. The authentication token is removed and protected pages such as Dashboard, Transactions, and Budget cannot be accessed again until the user logs in.
+
+   ---
+
+## Testing
+
+SmartSpend was manually tested throughout the development process to make sure the main features worked correctly and that the frontend, backend, and database communicated as expected.
+
+The following functional tests were completed:
+
+| Test | Expected Behaviour | Result |
+
+|---|---|---|
+
+| User Registration | A new user should be able to create an account using valid details | Passed |
+
+| User Login | A registered user should be able to log in with valid credentials | Passed |
+
+| JWT Authentication | Protected API routes should only be accessible with a valid authentication token | Passed |
+
+| Protected Pages | Users who are not logged in should be redirected to the login page | Passed |
+
+| Add Transaction | A logged-in user should be able to add a new income or expense transaction | Passed |
+
+| View Transactions | The user should only see transactions belonging to their account | Passed |
+
+| Edit Transaction | An existing transaction should be updated successfully | Passed |
+
+| Delete Transaction | A selected transaction should be removed successfully | Passed |
+
+| Dashboard Summary | Income, expenses, monthly balance, and overall balance should reflect the user's financial data | Passed |
+
+| Dashboard Charts | Financial charts should display the user's income and expense information | Passed |
+
+| Create Monthly Budget | A user should be able to enter and save a monthly budget | Passed |
+
+| Budget Persistence | A saved budget should remain available after refreshing or reopening the page | Passed |
+
+| Budget Calculation | SmartSpend should calculate the amount spent, remaining budget, and budget progress | Passed |
+
+| User Data Isolation | A newly created user should not be able to see another user's transactions or budget information | Passed |
+
+| Currency Selection | The selected currency symbol should be displayed across the relevant financial pages | Passed |
+
+| Logout | Logging out should remove the authentication token and prevent access to protected pages | Passed |
+
+| Direct Route Refresh | Refreshing a deployed route such as `/dashboard` should load the React application correctly | Passed |
+
+| Cloud Database Connection | The deployed backend should successfully communicate with MongoDB Atlas | Passed |
+
+## CRUD Testing
+
+The Transactions feature was specifically tested for all four CRUD operations:
+
+ 1) Create
+    -> Added new income and expense transactions.
+
+ 2) Read
+    -> Retrieved and displayed transactions belonging to the logged-in user.
+
+ 3) Update 
+    -> Edited an existing transaction and confirmed that the updated information was displayed.
+
+ 4) Delete 
+    -> Deleted a transaction and confirmed that it was removed from the application.
+
+## Deployment Testing
+
+After deployment, the frontend and backend were tested using the live Render services.
+
+The deployed application was tested for registration, login, dashboard loading, transaction management, budget management, currency display, logout, protected routes, and communication with MongoDB Atlas.
+
+The tests confirmed that the main SmartSpend functionality works in both the local development environment and the deployed application.
+
+## Testing Approach
+
+Testing for this project was carried out manually through the user interface and API behaviour during development and after deployment. Automated testing frameworks were not implemented for this version of SmartSpend.
