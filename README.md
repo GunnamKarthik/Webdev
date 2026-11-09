@@ -142,8 +142,11 @@ The system uses three main collections:-
 |---|---|
 
 | name | User's name |
+
 | email | User's email address and unique login identifier |
+
 | password | Password stored securely as a hash |
+
 | timestamps | Records when the account was created or updated |
 
 ## Transactions
@@ -153,11 +156,17 @@ The system uses three main collections:-
 |---|---|
 
 | user | Reference to the user who owns the transaction |
+
 | type | Income or expense |
+
 | category | Category of the transaction |
+
 | amount | Monetary value of the transaction |
+
 | description | Optional information about the transaction |
+
 | date | Date of the transaction |
+
 | timestamps | Records when the transaction was created or updated |
 
 ## Budgets
@@ -167,8 +176,11 @@ The system uses three main collections:-
 |---|---|
 
 | user | Reference to the user who owns the budget |
+
 | month | Month associated with the budget |
+
 | amount | Monthly budget amount |
+
 | timestamps | Records when the budget was created or updated |
 
 A user can have multiple transactions and monthly budgets. Each transaction and budget is linked to a specific user. This allows SmartSpend to keep financial information separate between different user accounts.
