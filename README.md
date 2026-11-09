@@ -616,3 +616,15 @@ Node.js + Express Backend
   v
 MongoDB Atlas
 ```
+
+---
+
+## Useful Links
+
+The following links provide access to the SmartSpend source code, deployed application, and backend service.
+
+-> **GitHub Repository:** [SmartSpend Source Code](https://github.com/GunnamKarthik/Webdev)
+
+-> **Live Application:** [SmartSpend Frontend](https://smartspend-frontend-9sb8.onrender.com)
+
+-> **Backend Service:** [SmartSpend Backend](https://smartspend-backend-320f.onrender.com)
