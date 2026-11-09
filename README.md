@@ -261,3 +261,72 @@ Before running SmartSpend locally, make sure the following are available:
 ```bash
 git clone https://github.com/GunnamKarthik/Webdev.git
 cd Webdev
+
+---
+
+## How to Use
+
+  -> SmartSpend is designed to provide a simple workflow for managing personal income, expenses, and monthly budgets.
+
+1. Create an Account
+
+   -> Open SmartSpend and select *Register*. Enter your name, email address, and a valid password to create an account.
+
+2. Login
+
+   -> After registration, use your email address and password to log in. Once authentication is successful, SmartSpend redirects you to your personal dashboard.
+
+3. View the Dashboard
+
+   -> The Dashboard provides a summary of your financial activity, including:
+
+        1) Monthly Balance
+        2) Monthly Income
+        3) Monthly Expenses
+        4) Overall Balance
+        5) Income vs Expenses chart
+        6) Expense category breakdown
+        7) Recent transactions
+
+4. Manage Transactions
+
+   -> Open the *Transactions* page to manage income and expenses.
+
+Users can:
+
+ 1) Add a new transaction
+ 2) View existing transactions
+ 3) Edit a transaction
+ 4) Delete a transaction
+
+Each transaction can contain a type, category, amount, description, and date.
+
+5. Manage Monthly Budget
+
+   -> Open the *Budget* page and select the required month.
+
+   -> Enter a monthly budget amount and save it. SmartSpend compares the budget with the expenses recorded for that month and displays:
+
+    1) Monthly Budget
+    2) Amount Spent
+    3) Remaining Amount
+    4) Budget Progress
+
+The saved budget remains available when the user returns to the application.
+
+6. Change Display Currency
+
+  -> The currency selector in the navigation bar allows the user to choose:
+
+   1) EUR (€)
+   2) USD ($)
+   3) GBP (£)
+   4) INR (₹)
+   5) CAD (C$)
+   6) AUD (A$)
+
+This feature changes how monetary values are displayed. It does not perform live currency conversion or change the underlying stored amounts.
+
+7. Logout
+
+   -> Select *Logout* when finished. The authentication token is removed and protected pages such as Dashboard, Transactions, and Budget cannot be accessed again until the user logs in.
