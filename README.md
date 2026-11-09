@@ -471,9 +471,16 @@ Webdev/
 ## Main Folders
 
 -> **backend/models** - Contains the Mongoose models used for users, transactions, and budgets.
+
 -> **backend/routes** - Contains the REST API routes for authentication, transactions, and budgets.
+
 -> **backend/middleware** - Contains the JWT authentication middleware used to protect private API routes.
+
 -> **frontend/src/components** - Contains reusable React components such as the navigation bar and protected route component.
+
 -> **frontend/src/pages** - Contains the main application pages including Login, Register, Dashboard, Transactions, and Budget.
+
 -> **frontend/src/utils** - Contains supporting utility functions such as currency display handling.
+
 -> **server.js** - Configures the Express server, MongoDB connection, middleware, API routes, and application port.
+
