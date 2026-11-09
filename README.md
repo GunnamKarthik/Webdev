@@ -628,3 +628,38 @@ The following links provide access to the SmartSpend source code, deployed appli
 -> **Live Application:** [SmartSpend Frontend](https://smartspend-frontend-9sb8.onrender.com)
 
 -> **Backend Service:** [SmartSpend Backend](https://smartspend-backend-320f.onrender.com)
+
+---
+
+## References
+
+The following official documentation and technical resources were consulted during the development of SmartSpend.
+
+## Frontend
+
+-> [React Documentation](https://react.dev/)
+-> [Vite Documentation](https://vite.dev/guide/)
+-> [Recharts Documentation](https://recharts.org/)
+
+## Backend
+
+-> [Node.js Documentation](https://nodejs.org/en/docs)
+-> [Express.js Documentation](https://expressjs.com/)
+
+## Database
+
+-> [MongoDB Atlas Documentation](https://www.mongodb.com/docs/atlas/)
+-> [Mongoose Documentation](https://mongoosejs.com/docs/)
+
+## Authentication and Security
+
+-> [JSON Web Token - jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+-> [bcrypt](https://www.npmjs.com/package/bcrypt)
+
+## Version Control and Deployment
+
+-> [Git Documentation](https://git-scm.com/doc)
+-> [GitHub Documentation](https://docs.github.com/)
+-> [Render Documentation](https://render.com/docs)
+
+These resources were used to understand the technologies, configuration options, authentication methods, database integration, and deployment process used in the SmartSpend application.
