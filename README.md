@@ -406,3 +406,74 @@ The tests confirmed that the main SmartSpend functionality works in both the loc
 ## Testing Approach
 
 Testing for this project was carried out manually through the user interface and API behaviour during development and after deployment. Automated testing frameworks were not implemented for this version of SmartSpend.
+
+---
+
+## Project Structure
+
+SmartSpend is divided into separate frontend and backend folders. This keeps the user interface, server-side logic, database models, and API routes organised.
+
+```text
+Webdev/
+│
+├── backend/
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   │
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Transaction.js
+│   │   └── Budget.js
+│   │
+│   ├── routes/
+│   │   ├── auth.js
+│   │   ├── transactions.js
+│   │   └── budgets.js
+│   │
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
+│
+├── frontend/
+│   ├── public/
+│   │
+│   ├── src/
+│   │   ├── assets/
+│   │   │
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Navbar.css
+│   │   │   └── ProtectedRoute.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Transactions.jsx
+│   │   │   └── Budget.jsx
+│   │   │
+│   │   ├── utils/
+│   │   │   └── currency.js
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   ├── main.jsx
+│   │   └── index.css
+│   │
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.js
+│
+├── .gitignore
+└── README.md
+```
+
+## Main Folders
+
+-> **backend/models** - Contains the Mongoose models used for users, transactions, and budgets.
+-> **backend/routes** - Contains the REST API routes for authentication, transactions, and budgets.
+-> **backend/middleware** - Contains the JWT authentication middleware used to protect private API routes.
+-> **frontend/src/components** - Contains reusable React components such as the navigation bar and protected route component.
+-> **frontend/src/pages** - Contains the main application pages including Login, Register, Dashboard, Transactions, and Budget.
+-> **frontend/src/utils** - Contains supporting utility functions such as currency display handling.
+-> **server.js** - Configures the Express server, MongoDB connection, middleware, API routes, and application port.
