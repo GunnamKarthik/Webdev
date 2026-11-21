@@ -18,14 +18,15 @@ The SmartSpend project is organised into two main parts:-
 
 ## Frontend
 
-The frontend is built using React and Vite. It provides the user interface for Registration, Login, Dashboard viewing, Transaction management, Monthly budgeting, and Currency display selection.
+The frontend is built using React and Vite. It provides the user interface for Registration, Login, Dashboard viewing, Transaction management, Monthly budgeting, and Currency conversion and selection.
 
 ## Backend
 
-The backend is built using Node.js and Express.js. 
-It provides REST API endpoints for Authentication, Transactions, and budgets. 
-It also handles JWT authentication and communication with the mongoDB Atlas database.
+The backend is built using Node.js and Express.js.
 
+It provides REST API endpoints for Authentication, Transactions, Budgets, and Exchange Rates.
+
+It also handles JWT authentication, communication with MongoDB Atlas, and communication with ExchangeRate-API to retrieve the latest available currency exchange rates.
 ## Database
 
 MongoDB Atlas is used as the cloud database. Mongoose is used in the backend to define and manage the User, Transaction, and Budget data models.
@@ -70,8 +71,9 @@ SmartSpend provides the following main functions:
 
 ## Multiple Display Currencies
    -> Users can display financial values in EUR, USD, GBP, INR, CAD, or AUD.
-   -> The currency option changes the display symbol only and does not perform live exchange-rate conversion.
-
+   -> SmartSpend uses ExchangeRate-API to retrieve the latest available exchange rates.
+   -> Financial values are converted from EUR to the currency selected by the user.
+   -> EUR is used as the base currency for storing financial values consistently in the database.
 ## User Data Isolation
    -> Transactions and budgets are linked to individual user accounts.
    -> A logged-in user cannot view another user's financial records.
@@ -103,6 +105,14 @@ Browser / React Frontend
 Node.js / Express Backend
         ↕ Mongoose
 MongoDB Atlas Database
+
+Node.js / Express Backend
+        ↕ External API Request
+ExchangeRate-API
+        ↕ JSON Exchange Rate Response
+Node.js / Express Backend
+
+The backend communicates with ExchangeRate-API to retrieve the latest available exchange rates. The API key is stored securely as a backend environment variable and is not exposed in the React frontend.
 
 ## Frontend 
    -> React and Vite are used to build the user interface. The frontend uses `fetch()` to communicate with the backend API.
@@ -227,6 +237,16 @@ The SmartSpend frontend communicates with the backend through REST API endpoints
 
 | POST | `/api/budgets` | Create or update a monthly budget |
 
+## Exchange Rate Endpoint
+
+| Method | Endpoint | Description |
+
+|---|---|---|
+
+| GET | `/api/exchange-rates/:currency` | Get the latest available exchange rate from EUR to the selected currency |
+
+The backend retrieves exchange-rate data from ExchangeRate-API in JSON format and returns the required conversion rate to the frontend.
+
 ## Protected Route
 
 | Method | Endpoint | Description |
@@ -325,7 +345,9 @@ The saved budget remains available when the user returns to the application.
    5) CAD (C$)
    6) AUD (A$)
 
-This feature changes how monetary values are displayed. It does not perform live currency conversion or change the underlying stored amounts.
+When a currency is selected, SmartSpend retrieves the latest available exchange rate through the backend and converts the displayed financial values into the selected currency.
+
+EUR is used as the base currency for storing financial values. When a user enters a transaction or budget amount in another selected currency, SmartSpend converts the amount to its EUR equivalent before storing it in the database.
 
 7. Logout
 
@@ -371,7 +393,11 @@ The following functional tests were completed:
 
 | User Data Isolation | A newly created user should not be able to see another user's transactions or budget information | Passed |
 
-| Currency Selection | The selected currency symbol should be displayed across the relevant financial pages | Passed |
+| Currency Conversion | Financial values should be converted correctly according to the selected currency | Passed |
+
+| Exchange Rate API | The backend should successfully retrieve the latest available exchange rate for the selected currency | Passed |
+
+| Currency Input | Transaction and budget amounts entered in the selected currency should be converted to EUR before being stored | Passed |
 
 | Logout | Logging out should remove the authentication token and prevent access to protected pages | Passed |
 
@@ -399,7 +425,7 @@ The Transactions feature was specifically tested for all four CRUD operations:
 
 After deployment, the frontend and backend were tested using the live Render services.
 
-The deployed application was tested for registration, login, dashboard loading, transaction management, budget management, currency display, logout, protected routes, and communication with MongoDB Atlas.
+The deployed application was tested for registration, login, dashboard loading, transaction management, budget management, currency conversion, currency input, logout, protected routes, communication with ExchangeRate-API, and communication with MongoDB Atlas.
 
 The tests confirmed that the main SmartSpend functionality works in both the local development environment and the deployed application.
 
@@ -428,7 +454,8 @@ Webdev/
 │   ├── routes/
 │   │   ├── auth.js
 │   │   ├── transactions.js
-│   │   └── budgets.js
+│   │   ├── budgets.js
+│   │   └── exchangeRates.js
 │   │
 │   ├── package.json
 │   ├── package-lock.json
@@ -480,7 +507,7 @@ Webdev/
 
 -> **frontend/src/pages** - Contains the main application pages including Login, Register, Dashboard, Transactions, and Budget.
 
--> **frontend/src/utils** - Contains supporting utility functions such as currency display handling.
+-> **frontend/src/utils** - Contains supporting utility functions such as currency selection and conversion handling.
 
 -> **server.js** - Configures the Express server, MongoDB connection, middleware, API routes, and application port.
 
@@ -520,13 +547,13 @@ SmartSpend was developed using a combination of frontend, backend, database, sec
 
 | dotenv | Used to load sensitive backend configuration from environment variables |
 
+| ExchangeRate-API | External API used to retrieve the latest available currency exchange rates |
+
 | Git | Used for source code version control |
 
 | GitHub | Used to store and manage the project repository |
 
 | Render | Used to deploy the SmartSpend frontend and backend online |
-
-The project does not use a live currency conversion API. The currency selector changes the display currency symbol only and does not convert the stored financial values.
 
 ---
 
@@ -543,10 +570,12 @@ The backend deployment configuration includes:
 1) **Root Directory:** `backend`
 2) **Build Command:** `npm install`
 3) **Start Command:** `node server.js`
-4) **Environment Variables:** `MONGO_URI` and `JWT_SECRET`
+4) **Environment Variables:** `MONGO_URI`, `JWT_SECRET`, and `EXCHANGE_RATE_API_KEY`
 5) **Port:** Uses the port provided by Render through `process.env.PORT`
 
 The backend connects to MongoDB Atlas using the database connection string stored securely as an environment variable.
+
+The ExchangeRate-API key is stored securely in the Render backend environment using the `EXCHANGE_RATE_API_KEY` environment variable. The API key is not exposed in the frontend or committed to the GitHub repository.
 
 Live Backend:
 
@@ -600,7 +629,6 @@ https://github.com/GunnamKarthik/Webdev
 
 The deployed architecture follows this flow:
 
-```text
 User
   |
   v
@@ -612,10 +640,18 @@ React + Vite Frontend
 Node.js + Express Backend
 (Render Web Service)
   |
-  | Mongoose
-  v
-MongoDB Atlas
-```
+  |-----------------------|
+  |                       |
+  | Mongoose              | External API Request
+  v                       v
+MongoDB Atlas        ExchangeRate-API
+                           |
+                           | JSON Exchange Rate Response
+                           v
+                  Node.js + Express Backend
+                           |
+                           v
+                  React + Vite Frontend
 
 ---
 
@@ -655,6 +691,10 @@ The following official documentation and technical resources were consulted duri
 
 -> [Mongoose Documentation](https://mongoosejs.com/docs/)
 
+## External API
+
+-> [ExchangeRate-API](https://www.exchangerate-api.com/)
+
 ## Authentication and Security
 
 -> [JSON Web Token - jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
@@ -686,6 +726,8 @@ ChatGPT assisted with:
 -> Debugging errors encountered during development.
 
 -> Troubleshooting frontend and backend integration.
+
+-> Guidance for integrating and testing the external ExchangeRate-API for currency conversion.
 
 -> Guidance for implementing authentication, transactions, budgets, and dashboard functionality.
 
