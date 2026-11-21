@@ -7,6 +7,7 @@ dns.setServers(['8.8.8.8', '8.8.4.4']);
 const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 const budgetRoutes = require('./routes/budgets')
+const exchangeRateRoutes = require('./routes/exchangeRates');
 const authMiddleware = require('./middleware/authMiddleware');
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/budgets', budgetRoutes)
+app.use('/api/exchange-rates', exchangeRateRoutes);
 app.get('/', (req, res) => {
   res.send('SmartSpend BAckend Is Running!');
 });

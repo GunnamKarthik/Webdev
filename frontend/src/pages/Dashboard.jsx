@@ -25,17 +25,17 @@ import {
 
 function Dashboard() {
   const [transactions, setTransactions] = useState([])
+  const [exchangeRate, setExchangeRate] = useState(1)
 
-  // ==========================================
-  // CURRENCY
-  // ==========================================
+  //CURRENCY
 
   const selectedCurrency = getCurrency()
   const currencySymbol = getCurrencySymbol(selectedCurrency)
+  const convertAmount = (amount) => {
+  return amount * exchangeRate
+}
 
-  // ==========================================
-  // DEFAULT SELECTED MONTH
-  // ==========================================
+// DEFAULT SELECTED MONTH
 
   const currentDate = new Date()
 
@@ -45,10 +45,8 @@ function Dashboard() {
     ).padStart(2, '0')}`
   )
 
-  // ==========================================
   // FETCH TRANSACTIONS
-  // ==========================================
-
+  
   const fetchTransactions = async () => {
     const token = localStorage.getItem('token')
 
@@ -84,10 +82,36 @@ function Dashboard() {
   useEffect(() => {
     fetchTransactions()
   }, [])
+  useEffect(() => {
+  const fetchExchangeRate = async () => {
+    try {
+      if (selectedCurrency === 'EUR') {
+        setExchangeRate(1)
+        return
+      }
 
-  // ==========================================
+      const response = await fetch(
+        `${API_URL}/api/exchange-rates/${selectedCurrency}`
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setExchangeRate(data.rate)
+      } else {
+        console.error(data.message)
+        setExchangeRate(1)
+      }
+    } catch (error) {
+      console.error('Unable to load exchange rate:', error)
+      setExchangeRate(1)
+    }
+  }
+
+  fetchExchangeRate()
+}, [selectedCurrency])
+
   // FILTER TRANSACTIONS BY SELECTED MONTH
-  // ==========================================
 
   const monthlyTransactions = transactions.filter(
     (transaction) => {
@@ -102,9 +126,7 @@ function Dashboard() {
     }
   )
 
-  // ==========================================
   // MONTHLY INCOME
-  // ==========================================
 
   const monthlyIncome = monthlyTransactions
     .filter(
@@ -117,9 +139,7 @@ function Dashboard() {
       0
     )
 
-  // ==========================================
   // MONTHLY EXPENSES
-  // ==========================================
 
   const monthlyExpenses = monthlyTransactions
     .filter(
@@ -132,16 +152,12 @@ function Dashboard() {
       0
     )
 
-  // ==========================================
   // MONTHLY BALANCE
-  // ==========================================
 
   const monthlyBalance =
     monthlyIncome - monthlyExpenses
 
-  // ==========================================
   // OVERALL INCOME
-  // ==========================================
 
   const overallIncome = transactions
     .filter(
@@ -154,9 +170,7 @@ function Dashboard() {
       0
     )
 
-  // ==========================================
   // OVERALL EXPENSES
-  // ==========================================
 
   const overallExpenses = transactions
     .filter(
@@ -169,31 +183,25 @@ function Dashboard() {
       0
     )
 
-  // ==========================================
   // OVERALL BALANCE
-  // ==========================================
 
   const overallBalance =
     overallIncome - overallExpenses
 
-  // ==========================================
   // INCOME VS EXPENSE CHART DATA
-  // ==========================================
-
+ 
   const incomeExpenseData = [
-    {
-      name: 'Income',
-      amount: monthlyIncome
-    },
-    {
-      name: 'Expenses',
-      amount: monthlyExpenses
-    }
-  ]
+  {
+    name: 'Income',
+    amount: convertAmount(monthlyIncome)
+  },
+  {
+    name: 'Expenses',
+    amount: convertAmount(monthlyExpenses)
+  }
+]
 
-  // ==========================================
   // EXPENSES BY CATEGORY DATA
-  // ==========================================
 
   const expenseCategoryMap = {}
 
@@ -206,12 +214,12 @@ function Dashboard() {
       const category = transaction.category
 
       if (expenseCategoryMap[category]) {
-        expenseCategoryMap[category] +=
-          transaction.amount
-      } else {
-        expenseCategoryMap[category] =
-          transaction.amount
-      }
+  expenseCategoryMap[category] +=
+    convertAmount(transaction.amount)
+} else {
+  expenseCategoryMap[category] =
+    convertAmount(transaction.amount)
+}
     })
 
   const expenseCategoryData = Object.entries(
@@ -221,9 +229,7 @@ function Dashboard() {
     amount
   }))
 
-  // ==========================================
   // PIE CHART COLORS
-  // ==========================================
 
   const categoryColors = [
     '#0f766e',
@@ -234,9 +240,7 @@ function Dashboard() {
     '#0891b2'
   ]
 
-  // ==========================================
   // FORMAT SELECTED MONTH
-  // ==========================================
 
   const formatSelectedMonth = () => {
     const [year, month] = selectedMonth.split('-')
@@ -330,7 +334,7 @@ function Dashboard() {
 
                 <h2>
                   {currencySymbol}
-                  {monthlyBalance.toFixed(2)}
+                  {convertAmount(monthlyBalance).toFixed(2)}
                 </h2>
 
               </div>
@@ -353,7 +357,7 @@ function Dashboard() {
 
                 <h2>
                   {currencySymbol}
-                  {monthlyIncome.toFixed(2)}
+                  {convertAmount(monthlyIncome).toFixed(2)}
                 </h2>
 
               </div>
@@ -376,7 +380,7 @@ function Dashboard() {
 
                 <h2>
                   {currencySymbol}
-                  {monthlyExpenses.toFixed(2)}
+                  {convertAmount(monthlyExpenses).toFixed(2)}
                 </h2>
 
               </div>
@@ -399,7 +403,7 @@ function Dashboard() {
 
                 <h2>
                   {currencySymbol}
-                  {overallBalance.toFixed(2)}
+                  {convertAmount(overallBalance).toFixed(2)}
                 </h2>
 
               </div>
@@ -693,7 +697,7 @@ function Dashboard() {
                               : '-'}
 
                             {currencySymbol}
-                            {transaction.amount.toFixed(2)}
+                            {convertAmount(transaction.amount).toFixed(2)}
 
                           </span>
 

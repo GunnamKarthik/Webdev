@@ -15,6 +15,7 @@ function Transactions() {
   const [date, setDate] = useState('')
   const [transactions, setTransactions] = useState([])
   const [editingId, setEditingId] = useState(null)
+  const [exchangeRate, setExchangeRate] = useState(1)
 
   // ==========================================
   // CURRENCY
@@ -22,6 +23,9 @@ function Transactions() {
 
   const selectedCurrency = getCurrency()
   const currencySymbol = getCurrencySymbol(selectedCurrency)
+  const convertAmount = (amount) => {
+  return amount * exchangeRate
+}
 
   // ==========================================
   // FETCH TRANSACTIONS
@@ -60,6 +64,34 @@ function Transactions() {
   useEffect(() => {
     fetchTransactions()
   }, [])
+  useEffect(() => {
+  const fetchExchangeRate = async () => {
+    try {
+      if (selectedCurrency === 'EUR') {
+        setExchangeRate(1)
+        return
+      }
+
+      const response = await fetch(
+        `${API_URL}/api/exchange-rates/${selectedCurrency}`
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setExchangeRate(data.rate)
+      } else {
+        console.error(data.message)
+        setExchangeRate(1)
+      }
+    } catch (error) {
+      console.error('Unable to load exchange rate:', error)
+      setExchangeRate(1)
+    }
+  }
+
+  fetchExchangeRate()
+}, [selectedCurrency])
 
   // ==========================================
   // ADD OR UPDATE TRANSACTION
@@ -86,7 +118,7 @@ function Transactions() {
         body: JSON.stringify({
           type,
           category,
-          amount: Number(amount),
+          amount: Number(amount) / exchangeRate,
           description,
           date
         })
@@ -123,7 +155,7 @@ function Transactions() {
     setEditingId(transaction._id)
     setType(transaction.type)
     setCategory(transaction.category)
-    setAmount(transaction.amount)
+    setAmount(convertAmount(transaction.amount).toFixed(2))
     setDescription(transaction.description || '')
     setDate(transaction.date.split('T')[0])
 
@@ -267,7 +299,7 @@ function Transactions() {
 
                 <h2>
                   {currencySymbol}
-                  {balance.toFixed(2)}
+                  {convertAmount(balance).toFixed(2)}
                 </h2>
 
               </div>
@@ -288,7 +320,7 @@ function Transactions() {
 
                 <h2>
                   {currencySymbol}
-                  {totalIncome.toFixed(2)}
+                  {convertAmount(totalIncome).toFixed(2)}
                 </h2>
 
               </div>
@@ -309,7 +341,7 @@ function Transactions() {
 
                 <h2>
                   {currencySymbol}
-                  {totalExpenses.toFixed(2)}
+                  {convertAmount(totalExpenses).toFixed(2)}
                 </h2>
 
               </div>
@@ -565,7 +597,7 @@ function Transactions() {
                           : '-'}
 
                         {currencySymbol}
-                        {transaction.amount.toFixed(2)}
+                        {convertAmount(transaction.amount).toFixed(2)}
 
                       </h3>
 

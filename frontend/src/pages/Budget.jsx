@@ -13,8 +13,12 @@ function Budget() {
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [budgetAmount, setBudgetAmount] = useState('')
   const [transactions, setTransactions] = useState([])
+  const [exchangeRate, setExchangeRate] = useState(1)
   const selectedCurrency = getCurrency()
   const currencySymbol = getCurrencySymbol(selectedCurrency)
+  const convertAmount = (amount) => {
+  return amount * exchangeRate
+}
 
   // ==========================================
   // LOAD BUDGET FOR SELECTED MONTH
@@ -37,10 +41,12 @@ function Budget() {
 
       if (response.ok) {
         if (data.budget) {
-          setBudgetAmount(data.budget.amount)
-        } else {
-          setBudgetAmount('')
-        }
+  setBudgetAmount(
+    (data.budget.amount * exchangeRate).toFixed(2)
+  )
+} else {
+  setBudgetAmount('')
+}
       } else if (response.status === 401) {
         localStorage.removeItem('token')
         window.location.href = '/login'
@@ -109,7 +115,7 @@ function Budget() {
 
           body: JSON.stringify({
             month: selectedMonth,
-            amount: Number(budgetAmount)
+            amount: Number(budgetAmount) / exchangeRate
           })
         }
       )
@@ -117,7 +123,7 @@ function Budget() {
       const data = await response.json()
 
       if (response.ok) {
-        setBudgetAmount(data.budget.amount)
+        setBudgetAmount((data.budget.amount * exchangeRate).toFixed(2))
         alert('Budget saved successfully.')
       } else if (response.status === 401) {
         localStorage.removeItem('token')
@@ -137,11 +143,39 @@ function Budget() {
 
   useEffect(() => {
     fetchBudget()
-  }, [selectedMonth])
+  }, [selectedMonth, exchangeRate])
 
   useEffect(() => {
     fetchTransactions()
   }, [])
+  useEffect(() => {
+  const fetchExchangeRate = async () => {
+    try {
+      if (selectedCurrency === 'EUR') {
+        setExchangeRate(1)
+        return
+      }
+
+      const response = await fetch(
+        `${API_URL}/api/exchange-rates/${selectedCurrency}`
+      )
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setExchangeRate(data.rate)
+      } else {
+        console.error(data.message)
+        setExchangeRate(1)
+      }
+    } catch (error) {
+      console.error('Unable to load exchange rate:', error)
+      setExchangeRate(1)
+    }
+  }
+
+  fetchExchangeRate()
+}, [selectedCurrency])
 
   // ==========================================
   // CALCULATE MONTHLY BUDGET PROGRESS
@@ -164,7 +198,7 @@ function Budget() {
       0
     )
 
-  const budget = Number(budgetAmount) || 0
+  const budget = (Number(budgetAmount) || 0) / exchangeRate
 
   const remainingBudget = budget - monthlyExpenses
 
@@ -235,19 +269,19 @@ function Budget() {
 
           <div className="budget-stat-card">
             <p>Monthly Budget</p>
-            <h3>{currencySymbol}{budget.toFixed(2)}</h3>
+            <h3>{currencySymbol}{convertAmount(budget).toFixed(2)}</h3>
           </div>
 
           <div className="budget-stat-card">
             <p>Spent</p>
-            <h3>{currencySymbol}{monthlyExpenses.toFixed(2)}</h3>
+            <h3>{currencySymbol}{convertAmount(monthlyExpenses).toFixed(2)}</h3>
           </div>
 
           <div className="budget-stat-card">
             <p>Remaining</p>
 
             <h3>
-              {currencySymbol}{remainingBudget.toFixed(2)}
+              {currencySymbol}{convertAmount(remainingBudget).toFixed(2)}
             </h3>
           </div>
 
